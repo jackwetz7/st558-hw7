@@ -62,7 +62,7 @@ ui <- fluidPage(
 
 my_sample <- readRDS("my_sample_temp.rds")
 
-# Define server logic required to draw a histogram
+# Define server logic required to draw a scatterplot
 server <- function(input, output, session) {
 
     
@@ -89,7 +89,7 @@ server <- function(input, output, session) {
     #Use an observeEvent() to look for the action button (corr_sample)
     #Modify the code below (this will need to go in the observeEvent) to
     #subset the data appropriately
-    observeEvent(input$corr_swample, {
+    observeEvent(input$corr_sample, {
       if(input$hhl_corr == "all"){
         hhl_sub <- HHLvals
       } else if(input$hhl_corr == "english"){
@@ -146,9 +146,9 @@ server <- function(input, output, session) {
       #the corr_truth argument should be updated to be the correlation between 
       #the two variables selected: 
       #cor(sample_corr$corr_data |> select(corr_vars))[1,2]
-      sample_corr(corr_data = subsetted_data[index,],
-                  corr_truth = cor(sample_corr$corr_data |>
-                                     select(corr_vars))[1,2])
+      sample_corr$corr_data <- subsetted_data[index, ]
+      sample_corr$corr_truth <- cor(sample_corr$corr_data |>
+                                      select(corr_vars))[1, 2]
     })
     
     #Create a renderPlot() object to output a scatter plot
